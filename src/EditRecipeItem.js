@@ -1,5 +1,8 @@
 import { useState } from "react"
 import UseInputState from "./Hooks/useInputState"
+import Button from "./Style/Button"
+import Input from "./Style/Input"
+import Label from "./Style/Label"
 
 function EditRecipeItem({ recipe, editRecipe, toggle }) {
     const [nameVal, nameChange, nameReset] = UseInputState(recipe.name)
@@ -31,21 +34,21 @@ function EditRecipeItem({ recipe, editRecipe, toggle }) {
         toggle();
     }}>
         <h3>Name:</h3>
-        <input type="text" defaultValue={nameVal} onChange={nameChange} />
+        <Input type="text" defaultValue={nameVal} onChange={nameChange} />
         <h3>Description:</h3>
-        <input type="text" defaultValue={descVal} onChange={descChange} />
+        <Input type="text" defaultValue={descVal} onChange={descChange} />
         {ingredients.map(ing => {
             return (
                 <div >
-                    {ing.name}
-                    <button type="button" name={ing.name} onClick={handleRemove}>Remove!</button>
+                    <Label>{ing.name}</Label>
+                    <Button type="button" name={ing.name} onClick={handleRemove}>Remove!</Button>
                 </div>)
         })}
         <div >
-            <input type="text" placeholder="Add new ingredient here" value={newIngredient} onChange={newIngredientChange} />
-            <button type="button" onClick={handleAdd}>Add Ingredient!</button>
-        </div>)
-        <button type="submit">Submit</button>
+            <Input type="text" placeholder="Add new ingredient here" value={newIngredient} onChange={newIngredientChange} />
+            <Button type="button" onClick={handleAdd}>Add Ingredient!</Button>
+        </div>
+        <Button type="submit">Submit</Button>
     </form>
 
 }

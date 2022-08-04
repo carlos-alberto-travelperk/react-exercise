@@ -1,5 +1,6 @@
 import useToggle from "./Hooks/useToggle"
 import EditRecipeItem from "./EditRecipeItem"
+import Button from "./Style/Button"
 
 function RecipeItem({ recipe, editRecipe }) {
     const [isEditing, toggle] = useToggle(false)
@@ -11,7 +12,7 @@ function RecipeItem({ recipe, editRecipe }) {
                 <h3>Description: {recipe.description}</h3>
                 <h3>Ingredients:</h3>
                 {recipe.ingredients.map(ingredient => <li>{ingredient.name}</li>)}
-                <button onClick={toggle}>EDIT</button>
+                <Button onClick={toggle}>EDIT</Button>
             </>
         }</div>
     )
