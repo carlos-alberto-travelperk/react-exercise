@@ -1,10 +1,9 @@
-import React from 'react';
 import RecipeItem from './RecipeItem';
 
-function RecipeList({ recipes }) {
+function RecipeList({ recipes, editRecipe }) {
     return (
         <div>
-            {recipes.map(recipe => <RecipeItem recipe={recipe} />)}
+            {recipes.map(recipe => <RecipeItem recipe={recipe} editRecipe={editRecipe} />)}
         </div>
     )
 }
