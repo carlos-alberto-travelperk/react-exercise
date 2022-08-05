@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Label = styled.label`
+const Label = styled.text`
   align-items: center;
   gap: 8px;
   padding: 0.5em;
@@ -8,7 +8,6 @@ const Label = styled.label`
   color: "palevioletred";
   border: none;
   border-radius: 3px;
-  width: 300px;
 `
 
 export default Label

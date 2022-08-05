@@ -3,12 +3,13 @@ import UseInputState from "./Hooks/useInputState"
 import Button from "./Style/Button"
 import Input from "./Style/Input"
 import Label from "./Style/Label"
+import { v4 as uuid } from 'uuid';
 
-function EditRecipeItem({ recipe, editRecipe, setEditingRecipe }) {
-    const [nameVal, nameChange, nameReset] = UseInputState(recipe.name)
-    const [descVal, descChange, descReset] = UseInputState(recipe.description)
+function AddRecipeForm({ addRecipe, toggle }) {
+    const [nameVal, nameChange, nameReset] = UseInputState("")
+    const [descVal, descChange, descReset] = UseInputState("")
     const [newIngredient, newIngredientChange, newIngredientReset] = UseInputState("")
-    const [ingredients, setIngredients] = useState(recipe.ingredients)
+    const [ingredients, setIngredients] = useState([])
 
     const handleRemove = (e) => {
         const newIngredients = ingredients.filter(ing => ing.name !== e.target.name)
@@ -25,13 +26,13 @@ function EditRecipeItem({ recipe, editRecipe, setEditingRecipe }) {
     return <form onSubmit={e => {
         e.preventDefault()
         if (nameVal.trim() && descVal.trim() && ingredients.length > 0) {
-            const updated = { "id": recipe.id, "name": nameVal, "description": descVal, "ingredients": ingredients }
-            editRecipe(recipe.id, updated);
+            const newRecipe = { "id": uuid(), "name": nameVal, "description": descVal, "ingredients": ingredients }
+            addRecipe(newRecipe);
             nameReset();
             descReset();
             newIngredientReset();
             setIngredients([]);
-            setEditingRecipe(undefined);
+            toggle();
         } else {
             alert("Ops! Seems like you have an empty field!")
         }
@@ -53,9 +54,9 @@ function EditRecipeItem({ recipe, editRecipe, setEditingRecipe }) {
             <Button type="button" onClick={handleAdd}>Add Ingredient!</Button>
         </div>
         <Button type="submit">Submit</Button>
-        <Button type="button" onClick={() => { setEditingRecipe(undefined) }}>Cancel</Button>
+        <Button type="button" onClick={toggle}>Cancel</Button>
     </form>
 
 }
 
-export default EditRecipeItem;
+export default AddRecipeForm;

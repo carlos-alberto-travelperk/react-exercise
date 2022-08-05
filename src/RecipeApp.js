@@ -10,7 +10,14 @@ function RecipeApp() {
         setRecipes(updatedRecipes);
     };
 
-    return <RecipeList recipes={recipes} editRecipe={editRecipe} />;
+    const addRecipe = (newRecipe) => {
+        //call the api and save the response if 201
+        setRecipes([...recipes, newRecipe]);
+    };
+
+    return (
+        <RecipeList recipes={recipes} addRecipe={addRecipe} editRecipe={editRecipe} />
+    );
 }
 
 export default RecipeApp;
