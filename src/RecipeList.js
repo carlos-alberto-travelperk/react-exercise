@@ -5,7 +5,7 @@ import RecipeItem from './RecipeItem';
 import UseToggle from './Hooks/useToggle';
 import Button from './Style/Button';
 
-function RecipeList({ recipes, addRecipe, editRecipe }) {
+function RecipeList({ recipes, addRecipe, editRecipe, removeRecipe }) {
     const [editingRecipe, setEditingRecipe] = useState(undefined)
     const [isAdding, setIsAdding] = UseToggle(false)
 
@@ -17,7 +17,7 @@ function RecipeList({ recipes, addRecipe, editRecipe }) {
                 isAdding ?
                     <AddRecipeForm addRecipe={addRecipe} toggle={setIsAdding} /> :
                     < div >
-                        {recipes.map(recipe => <RecipeItem recipe={recipe} editRecipe={editRecipe} setEditingRecipe={setEditingRecipe} />)}
+                        {recipes.map(recipe => <RecipeItem recipe={recipe} setEditingRecipe={setEditingRecipe} removeRecipe={removeRecipe} />)}
                         < Button type="button" onClick={setIsAdding}>Add Recipe</Button>
                     </div>
             }
