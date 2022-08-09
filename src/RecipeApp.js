@@ -1,26 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RecipeList from "./RecipeList"
+import axios from 'axios';
+import { v4 as uuid } from 'uuid';
 
 function RecipeApp() {
-    const initialValues = [{ "id": 1, "name": "Cake", "description": "deli", "ingredients": [{ "name": "milk" }] }];
-    const [recipes, setRecipes] = useState(initialValues);
+    const [recipes, setRecipes] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios.get('http://127.0.0.1:8000/recipes/')
+
+            setRecipes(result.data);
+        };
+
+        fetchData();
+    }, []);
 
     const addRecipe = (newRecipe) => {
-        //call the api and save the response if 201
-        setRecipes([...recipes, newRecipe]);
+        axios.post(`http://127.0.0.1:8000/recipes/`, newRecipe)
+            .then(response => setRecipes([...recipes, response.data]))
     };
 
     const editRecipe = (recipeId, updatedRecipe) => {
-        const updatedRecipes = recipes.map(recipe => recipe.id === recipeId ? updatedRecipe : recipe)
-        setRecipes(updatedRecipes);
+        axios.patch(`http://127.0.0.1:8000/recipes/${recipeId}/`, updatedRecipe)
+            .then(response => setRecipes(recipes.map(recipe => recipe.id === recipeId ? response.data : recipe)))
     };
 
     const removeRecipe = (recipeId) => {
-        setRecipes(recipes.filter(recipe => recipe.id !== recipeId));
+        axios.delete(`http://127.0.0.1:8000/recipes/${recipeId}/`)
+        setRecipes(recipes.filter(recipe => recipe.id !== recipeId))
     };
 
     return (
-        <RecipeList recipes={recipes} addRecipe={addRecipe} editRecipe={editRecipe} removeRecipe={removeRecipe} />
+        <RecipeList key={uuid()} recipes={recipes} addRecipe={addRecipe} editRecipe={editRecipe} removeRecipe={removeRecipe} />
     );
 }
 
