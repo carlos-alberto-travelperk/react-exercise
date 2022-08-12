@@ -3,6 +3,7 @@ import UseInputState from "./Hooks/useInputState"
 import Button from "./Style/Button"
 import Input from "./Style/Input"
 import Label from "./Style/Label"
+import { v4 as uuid } from 'uuid'
 
 function EditRecipeItem({ recipe, editRecipe, setEditingRecipe }) {
     const [nameVal, nameChange, nameReset] = UseInputState(recipe.name)
@@ -22,16 +23,22 @@ function EditRecipeItem({ recipe, editRecipe, setEditingRecipe }) {
         }
     }
 
+    const resetAll = () => {
+        nameReset()
+        descReset()
+        newIngredientReset()
+        setIngredients([])
+    }
+
+    const isAllFieldsFilled = () => nameVal.trim() && descVal.trim() && ingredients.length > 0
+
     return <form onSubmit={e => {
         e.preventDefault()
-        if (nameVal.trim() && descVal.trim() && ingredients.length > 0) {
+        if (isAllFieldsFilled()) {
             const updated = { "id": recipe.id, "name": nameVal, "description": descVal, "ingredients": ingredients }
-            editRecipe(recipe.id, updated);
-            nameReset();
-            descReset();
-            newIngredientReset();
-            setIngredients([]);
-            setEditingRecipe(undefined);
+            editRecipe(recipe.id, updated)
+            resetAll()
+            setEditingRecipe(undefined)
         } else {
             alert("Ops! Seems like you have an empty field!")
         }
@@ -43,12 +50,12 @@ function EditRecipeItem({ recipe, editRecipe, setEditingRecipe }) {
         <h3>Ingredients:</h3>
         {ingredients.map(ing => {
             return (
-                <div >
+                <div key={uuid()}>
                     <Label>{ing.name}</Label>
                     <Button type="button" name={ing.name} onClick={handleRemove}>Remove!</Button>
                 </div>)
         })}
-        <div >
+        <div>
             <Input type="text" placeholder="Add new ingredient here" value={newIngredient} onChange={newIngredientChange} />
             <Button type="button" onClick={handleAdd}>Add Ingredient!</Button>
         </div>
@@ -58,4 +65,4 @@ function EditRecipeItem({ recipe, editRecipe, setEditingRecipe }) {
 
 }
 
-export default EditRecipeItem;
+export default EditRecipeItem

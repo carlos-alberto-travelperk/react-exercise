@@ -1,7 +1,7 @@
-import RecipeApp from './RecipeApp';
+import RecipeApp from './RecipeApp'
 
 function App() {
-  return <RecipeApp />;
+  return <RecipeApp />
 }
 
-export default App;
+export default App

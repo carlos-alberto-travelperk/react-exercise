@@ -1,5 +1,5 @@
 import Button from "./Style/Button"
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 
 function RecipeItem({ recipe, setEditingRecipe, removeRecipe }) {
     return (
